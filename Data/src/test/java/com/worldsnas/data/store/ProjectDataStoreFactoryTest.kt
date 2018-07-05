@@ -14,4 +14,20 @@ class ProjectDataStoreFactoryTest {
     fun getDataStoreReturnsRemoteWhenCacheExpired() {
         assertEquals(remoteStore, factory.getDataStore(true, true))
     }
+
+    @Test
+    fun getDataStoreReturnsRemoteWhenNoProjectCached() {
+        assertEquals(remoteStore, factory.getDataStore(false, false))
+        assertEquals(remoteStore, factory.getDataStore(false, true))
+    }
+
+    @Test
+    fun getDataStoreReturnsCacheWhenNotExpired() {
+        assertEquals(cacheStore, factory.getDataStore(true, false))
+    }
+
+    @Test
+    fun getDataStoreReturnsCache() {
+        assertEquals(cacheStore, factory.getCacheDataStore())
+    }
 }
