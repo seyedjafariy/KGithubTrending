@@ -1,8 +1,10 @@
 package com.worldsnas.domain.interactor.bookmark
 
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
 import com.worldsnas.domain.executor.PostExecutionThread
 import com.worldsnas.domain.repository.ProjectRepository
+import com.worldsnas.domain.test.ProjectDataFactory
 import io.reactivex.Completable
 import org.junit.Before
 import org.junit.Test
@@ -26,15 +28,20 @@ class BookmarkProjectTest {
 
     @Test
     fun getBookmarkProjectsCompletes() {
-        val params = BookmarkProject.Params.forProject("")
-        stubBookmarkProject(params.projectId)
+        val params = BookmarkProject.Params.forProject(ProjectDataFactory.randomUuid())
+        stubBookmarkProject(Completable.complete())
         val testObserver = bookmarkProject.buildUseCaseCompletable(params).test()
         testObserver.assertComplete()
     }
 
-    private fun stubBookmarkProject(projectId:String){
-        whenever(projectRepository.bookmarkProject(projectId))
-                .thenReturn(Completable.complete())
+    @Test(expected = IllegalArgumentException::class)
+    fun bookmarkProjectThrowsException(){
+        bookmarkProject.buildUseCaseCompletable().test()
+    }
+
+    private fun stubBookmarkProject(completable: Completable){
+        whenever(projectRepository.bookmarkProject(any()))
+                .thenReturn(completable)
     }
 
 }
