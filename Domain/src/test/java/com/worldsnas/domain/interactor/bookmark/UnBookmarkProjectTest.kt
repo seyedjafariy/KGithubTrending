@@ -14,14 +14,14 @@ import org.mockito.MockitoAnnotations
 
 class UnBookmarkProjectTest {
 
-    private lateinit var unbookmarkProject: UnbookmarkProject
+    private lateinit var unBookmarkProject: UnbookmarkProject
     @Mock lateinit var projectRepository : ProjectRepository
     @Mock lateinit var postExecutionThread: PostExecutionThread
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        unbookmarkProject = UnbookmarkProject(projectRepository, postExecutionThread)
+        unBookmarkProject = UnbookmarkProject(projectRepository, postExecutionThread)
     }
 
     @Test
@@ -29,13 +29,13 @@ class UnBookmarkProjectTest {
         val projectId = UnbookmarkProject.Params.forProject(ProjectDataFactory.randomUuid())
         stubUnBookmarkProject(Completable.complete())
 
-        val completable = unbookmarkProject.buildUseCaseCompletable(projectId).test()
+        val completable = unBookmarkProject.buildUseCaseCompletable(projectId).test()
         completable.assertComplete()
     }
 
     @Test(expected = IllegalArgumentException::class)
     fun unBookmarkThrowsException(){
-        unbookmarkProject.buildUseCaseCompletable().test()
+        unBookmarkProject.buildUseCaseCompletable().test()
     }
 
     private fun stubUnBookmarkProject(completable: Completable){
