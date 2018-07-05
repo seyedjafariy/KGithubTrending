@@ -12,7 +12,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class UnbookmarkProjectTest {
+class UnBookmarkProjectTest {
 
     private lateinit var unbookmarkProject: UnbookmarkProject
     @Mock lateinit var projectRepository : ProjectRepository
