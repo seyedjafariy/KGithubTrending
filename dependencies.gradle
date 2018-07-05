@@ -1,4 +1,4 @@
-ext{
+ext {
 
     androidBuildToolsVersion = "26.0.0"
     androidMinSdkVersion = 19
@@ -9,4 +9,24 @@ ext{
     //libraries
     supportLibraryVersion = '26.0.1'
 
+    rxJavaVersion = '2.0.2'
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
+
+    //Testing
+    jUnitVersion = '4.12'
+    assertJVersion = '3.8.0'
+    mockitoVersion = '1.9.5'
+    mockitoKotlinVersion = '1.6.0'
+    domainDependencies = [
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
+            rxJava         : "io.reactivex.rxjava2:rxkotlin:${rxJavaVersion}"
+    ]
+
+    domainTestDependencies = [
+            junit  : "junit:junit:${jUnitVersion}",
+            mockito: "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            assertj: "org.assertj:assertj-core:${assertJVersion}"
+    ]
 }
