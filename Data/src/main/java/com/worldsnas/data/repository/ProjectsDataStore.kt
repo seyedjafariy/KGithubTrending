@@ -8,10 +8,14 @@ interface ProjectsDataStore {
 
     fun getProjects(): Observable<List<ProjectEntity>>
 
+    fun clearProjects(): Completable
+
+    fun saveProjects(projects : List<ProjectEntity>): Completable
+
     fun getBookmarkProjects(): Observable<List<ProjectEntity>>
 
-    fun setProjectAsBootkmark(projectId: String): Completable
+    fun setProjectAsBookmark(projectId: String): Completable
 
-    fun setProjectAsNotBootkmark(projectId: String): Completable
+    fun setProjectAsNotBookmark(projectId: String): Completable
 
 }
