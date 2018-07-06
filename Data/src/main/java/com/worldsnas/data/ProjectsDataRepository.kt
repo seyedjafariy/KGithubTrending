@@ -17,7 +17,7 @@ class ProjectsDataRepository @Inject constructor(
         ProjectRepository {
     override fun getProjects(): Observable<List<Project>> {
         return Observable.zip(cache.areProjectsCached().toObservable(),
-                cache.isProjectCachExpired().toObservable(),
+                cache.isProjectCacheExpired().toObservable(),
                 BiFunction<Boolean, Boolean, Pair<Boolean, Boolean>> { areCached, cacheExpired ->
                     Pair(areCached, cacheExpired)
                 })
