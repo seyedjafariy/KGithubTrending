@@ -9,26 +9,48 @@ ext {
     //libraries
     supportLibraryVersion = '26.0.1'
 
-    rxJavaVersion = '2.0.2'
+    rxJavaVersion = '2.1.16'
     rxKotlinVersion = '2.1.0'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
 
     //dagger
     androidAnnotationVersion = '21.0.3'
-    daggerVersion = "2.11"
+    daggerVersion = '2.11'
+
+    //retrofit
+    moshiKotlinVersion = '1.6.0'
+    okhttpVersion = '3.8.1'
+    retrofitVersion = '2.3.0'
+
+    //objectBox
+    objectboxVersion = '1.5.0'
+    objectboxRXVersion = '0.9.8'
 
     //Testing
     jUnitVersion = '4.12'
     assertJVersion = '3.8.0'
     mockitoVersion = '1.9.5'
+    mockitoCoreVersion = '2.18.3'
     mockitoKotlinVersion = '1.6.0'
     roboelectricVersion = '3.4.2'
+    androidSupportRunnerVersion = '1.0.0'
+    androidSupportRulesVersion = '1.0.0'
+
+    rxObjectBoxDependencies = [
+            rxJava : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            objectBoxJava : "io.objectbox:objectbox-java:${objectboxVersion}"
+    ]
+
+    rxObjectBoxTestDependencies = [
+            junit        : "junit:junit:${jUnitVersion}",
+            mockito      : "org.mockito:mockito-core:${mockitoCoreVersion}"
+    ]
 
     domainDependencies = [
             javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
-            rxJava         : "io.reactivex.rxjava2:rxkotlin:${rxJavaVersion}"
+            rxJava         : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}"
     ]
 
     domainTestDependencies = [
@@ -50,5 +72,29 @@ ext {
             mockito     : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
             assertj     : "org.assertj:assertj-core:${assertJVersion}",
             roboelectric: "org.roboelectric:roboelectric${roboelectricVersion}"
+    ]
+
+    cacheDependencies = [
+            daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger            : "com.google.dagger:dagger:${daggerVersion}",
+            moshi             : "com.squareup.moshi:moshi-kotlin:${moshiKotlinVersion}",
+            moshiCodeGen      : "com.squareup.moshi:moshi-kotlin-codegen:${moshiKotlinVersion}",
+            rxKotlin          : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}",
+            javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject       : "javax.inject:javax.inject:${javaxInjectVersion}",
+            androidAnnotations: "com.android.support:support-annotations:${androidAnnotationVersion}",
+            objecBox          : "io.objectbox:objectbox-android:${objectboxVersion}",
+            objectBoxKotlin   : "io.objectbox:objectbox-kotlin:${objectboxVersion}",
+            objectBoxRxJava   : "io.objectbox:objectbox-rxjava:${objectboxRXVersion}"
+    ]
+
+    cacheTestDependencies = [
+            junit        : "junit:junit:${jUnitVersion}",
+            kotlinJunit  : "org.jetbrains.kotlin:kotlin-test-junit:${kotlinVersion}",
+            mockito      : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            assertj      : "org.assertj:assertj-core:${assertJVersion}",
+            supportRunner: "com.android.support.test:runner${androidSupportRunnerVersion}",
+            supportRules : "com.android.support.test:rules${androidSupportRulesVersion}"
     ]
 }

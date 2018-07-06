@@ -1,0 +1,12 @@
+apply plugin: 'java'
+
+dependencies {
+    def objectBoxDependencies = rootProject.ext.rxObjectBoxDependencies
+    def objectBoxTestDependencies = rootProject.ext.rxObjectBoxTestDependencies
+
+    implementation objectBoxDependencies.rxJava
+    implementation objectBoxDependencies.objectBoxJava
+
+    testImplementation objectBoxTestDependencies.junit
+    testImplementation objectBoxTestDependencies.mockito
+}
