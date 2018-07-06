@@ -13,7 +13,7 @@ object ProjectDataFactory {
     }
 
     fun makeProjectEntity(): ProjectEntity {
-        return ProjectEntity(DataFactory.randomUuid(), DataFactory.randomUuid(),
+        return ProjectEntity(DataFactory.randomLong().toString(), DataFactory.randomUuid(),
                 DataFactory.randomUuid(), DataFactory.randomUuid(),
                 DataFactory.randomUuid(), DataFactory.randomUuid(),
                 DataFactory.randomUuid(), DataFactory.randomBoolean())
