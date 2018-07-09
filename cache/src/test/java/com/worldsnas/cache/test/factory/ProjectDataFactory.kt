@@ -12,7 +12,7 @@ object ProjectDataFactory {
                 DataFactory.randomUuid(), DataFactory.randomBoolean())
     }
 
-    fun makeProjectEntity(): ProjectEntity {
+    fun makeProjectEntity(isBookmark: Boolean = DataFactory.randomBoolean()): ProjectEntity {
         return ProjectEntity(DataFactory.randomLong().toString(), DataFactory.randomUuid(),
                 DataFactory.randomUuid(), DataFactory.randomUuid(),
                 DataFactory.randomUuid(), DataFactory.randomUuid(),

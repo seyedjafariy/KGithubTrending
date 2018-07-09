@@ -6,7 +6,6 @@ import com.worldsnas.cache.model.CachedProject_
 import com.worldsnas.cache.model.Config
 import com.worldsnas.data.model.ProjectEntity
 import com.worldsnas.data.repository.ProjectsCache
-import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.rx.RxQuery
 import io.reactivex.Completable
@@ -17,31 +16,36 @@ import javax.inject.Inject
 
 class ProjectsCacheImpl @Inject constructor(
         private val store: BoxStore,
-        private val mapper: CachedProjectMapper,
-        private val projectBox: Box<CachedProject>
+        private val mapper: CachedProjectMapper
 ) : ProjectsCache {
     override fun clearProjects(): Completable {
         return Completable.defer {
+            val projectBox = store.boxFor(CachedProject::class.java)
             projectBox.removeAll()
+            projectBox.closeThreadResources()
             Completable.complete()
         }
     }
 
     override fun saveProjects(projects: List<ProjectEntity>): Completable {
         return Completable.defer {
+            val projectBox = store.boxFor(CachedProject::class.java)
             projectBox.put(projects.map { mapper.mapToCached(it) })
+            projectBox.closeThreadResources()
             Completable.complete()
         }
     }
 
     override fun getProjects(): Observable<List<ProjectEntity>> {
-        return Observable.using({
-            store.boxFor(CachedProject::class.java)
-        }, {
-            RxQuery.observable(it.query().build())
-        }, {
-            it.closeThreadResources()
-        })
+        return Observable.defer {
+            Observable.using({
+                store.boxFor(CachedProject::class.java)
+            }, {
+                RxQuery.observable(it.query().build())
+            }, {
+                it.closeThreadResources()
+            })
+        }
                 .map { cachedProjects ->
                     cachedProjects.map { cachedProject ->
                         mapper.mapFromCached(cachedProject)
@@ -50,13 +54,15 @@ class ProjectsCacheImpl @Inject constructor(
     }
 
     override fun getBookmarkProjects(): Observable<List<ProjectEntity>> {
-        return Observable.using({
-            store.boxFor(CachedProject::class.java)
-        }, {
-            RxQuery.observable(it.query().equal(CachedProject_.isBookmarked, true).build())
-        }, {
-            it.closeThreadResources()
-        })
+        return Observable.defer {
+            Observable.using({
+                store.boxFor(CachedProject::class.java)
+            }, {
+                RxQuery.observable(it.query().equal(CachedProject_.isBookmarked, true).build())
+            }, {
+                it.closeThreadResources()
+            })
+        }
                 .map { cachedProjects ->
                     cachedProjects.map { cachedProject ->
                         mapper.mapFromCached(cachedProject)
@@ -64,15 +70,20 @@ class ProjectsCacheImpl @Inject constructor(
                 }
     }
 
-    override fun setProjectAsBootkmark(projectId: String): Completable {
-        return Observable.just(projectId)
+    override fun setProjectAsBookmark(projectId: String): Completable {
+        return Observable.defer {
+            Observable.just(projectId)
+        }
                 .map { it.toLong() }
                 .map {
                     val projectBox = store.boxFor(CachedProject::class.java)
                     val project = projectBox.get(it)
-                    project.copy(isBookmarked = true)
-                    projectBox.put(project)
+                    if (project != null) {
+                        project.copy(isBookmarked = true)
+                        projectBox.put(project)
+                    }
                     projectBox.closeThreadResources()
+                    it
                 }
                 .ignoreElements()
     }
@@ -112,18 +123,23 @@ class ProjectsCacheImpl @Inject constructor(
 
     override fun isProjectCacheExpired(): Single<Boolean> {
         return Single.defer {
-            Single.create {  it: SingleEmitter<Boolean> ->
+            Single.create { it: SingleEmitter<Boolean> ->
                 val currentTime = System.currentTimeMillis()
                 val expirationTime = 60 * 10 * 1000
                 val configBox = store.boxFor(Config::class.java)
-                val config = configBox.all[0]
+                val configs = configBox.all
 
-                val isExpired : Boolean
+                val isExpired: Boolean
 
-                if (config == null) {
-                    isExpired = true
+                isExpired = if (configs.size > 0) {
+                    val config = configs[0]
+                    if (config == null) {
+                        true
+                    } else {
+                        currentTime - config.lastCacheTime > expirationTime
+                    }
                 } else {
-                    isExpired = currentTime - config.lastCacheTime > expirationTime
+                    true
                 }
 
                 it.onSuccess(isExpired)

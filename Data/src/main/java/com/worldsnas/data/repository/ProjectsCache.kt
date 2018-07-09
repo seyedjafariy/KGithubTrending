@@ -15,7 +15,7 @@ interface ProjectsCache {
 
     fun getBookmarkProjects(): Observable<List<ProjectEntity>>
 
-    fun setProjectAsBootkmark(projectId: String): Completable
+    fun setProjectAsBookmark(projectId: String): Completable
 
     fun setProjectAsNotBootkmark(projectId: String): Completable
 

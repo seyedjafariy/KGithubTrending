@@ -28,7 +28,7 @@ open class ProjectCacheDataStore @Inject constructor(
     }
 
     override fun setProjectAsBookmark(projectId: String): Completable {
-        return projectsCache.setProjectAsBootkmark(projectId)
+        return projectsCache.setProjectAsBookmark(projectId)
     }
 
     override fun setProjectAsNotBookmark(projectId: String): Completable {

@@ -177,7 +177,7 @@ class ProjectCacheDataStoreTest {
 
         store.setProjectAsBookmark(projectId).test()
 
-        verify(cache).setProjectAsBootkmark(projectId)
+        verify(cache).setProjectAsBookmark(projectId)
     }
 
     @Test
@@ -208,7 +208,7 @@ class ProjectCacheDataStoreTest {
     }
 
     private fun stubSetProjectAsBookmarked(completable: Completable){
-        whenever(cache.setProjectAsBootkmark(any()))
+        whenever(cache.setProjectAsBookmark(any()))
                 .thenReturn(completable)
     }
 
