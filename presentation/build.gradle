@@ -1,18 +1,16 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    def globalConfig = rootProject.extensions.getByName("ext")
 
-
+    compileSdkVersion globalConfig["androidCompileSdkVersion"]
+    buildToolsVersion globalConfig["androidBuildToolsVersion"]
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        minSdkVersion globalConfig["androidMinSdkVersion"]
+        targetSdkVersion globalConfig["androidTargetSdkVersion"]
     }
 
     buildTypes {
@@ -25,10 +23,19 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    def presentationDependencies = rootProject.ext.presentationDependencies
+    def presentationTestDependencies = rootProject.ext.presentationTestDependencies
 
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(':Domain')
+    implementation presentationDependencies.kotlin
+    implementation presentationDependencies.javaxInject
+    implementation presentationDependencies.rxKotlin
+    implementation presentationDependencies.archRuntime
+    implementation presentationDependencies.archExtensions
+    kapt presentationDependencies.archCompiler
+
+    testImplementation presentationTestDependencies.junit
+    testImplementation presentationTestDependencies.mockito
+    testImplementation presentationTestDependencies.assertj
+    testImplementation presentationTestDependencies.roboelectric
 }
