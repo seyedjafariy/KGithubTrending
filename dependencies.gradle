@@ -38,7 +38,7 @@ ext {
     mockitoVersion = '1.9.5'
     mockitoCoreVersion = '2.18.3'
     mockitoKotlinVersion = '1.6.0'
-    roboelectricVersion = '3.4.2'
+    roboelectricVersion = '3.8'
     androidSupportRunnerVersion = '1.0.0'
     androidSupportRulesVersion = '1.0.0'
 
@@ -122,6 +122,6 @@ ext {
             kotlinJunit : "org.jetbrains.kotlin:kotlin-test-junit:${kotlinVersion}",
             mockito     : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
             assertj     : "org.assertj:assertj-core:${assertJVersion}",
-            roboelectric: "org.roboelectric:roboelectric:${roboelectricVersion}"
+            roboelectric: "org.robolectric:robolectric:${roboelectricVersion}"
     ]
 }

@@ -20,6 +20,12 @@ android {
         }
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
 }
 
 dependencies {
@@ -37,5 +43,5 @@ dependencies {
     testImplementation presentationTestDependencies.junit
     testImplementation presentationTestDependencies.mockito
     testImplementation presentationTestDependencies.assertj
-    testImplementation presentationTestDependencies.roboelectric
+//    testImplementation presentationTestDependencies.roboelectric
 }
