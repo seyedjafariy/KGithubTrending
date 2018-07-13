@@ -43,5 +43,7 @@ dependencies {
     testImplementation presentationTestDependencies.junit
     testImplementation presentationTestDependencies.mockito
     testImplementation presentationTestDependencies.assertj
+    testImplementation presentationTestDependencies.liveData
+
 //    testImplementation presentationTestDependencies.roboelectric
 }

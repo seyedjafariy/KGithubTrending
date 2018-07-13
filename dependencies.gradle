@@ -10,7 +10,7 @@ ext {
     supportLibraryVersion = '26.0.1'
 
     //archComponent
-    archComponentVersion = '1.0.0'
+    archComponentVersion = '1.1.1'
 
     //rxJava
     rxJavaVersion = '2.1.16'
@@ -122,6 +122,7 @@ ext {
             kotlinJunit : "org.jetbrains.kotlin:kotlin-test-junit:${kotlinVersion}",
             mockito     : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
             assertj     : "org.assertj:assertj-core:${assertJVersion}",
-            roboelectric: "org.robolectric:robolectric:${roboelectricVersion}"
+            roboelectric: "org.robolectric:robolectric:${roboelectricVersion}",
+            liveData    : "android.arch.core:core-testing:${archComponentVersion}"
     ]
 }
