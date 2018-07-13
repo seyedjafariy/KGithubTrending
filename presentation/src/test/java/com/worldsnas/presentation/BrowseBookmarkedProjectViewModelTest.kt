@@ -2,9 +2,7 @@ package com.worldsnas.presentation
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockito_kotlin.*
-import com.worldsnas.domain.interactor.bookmark.BookmarkProject
-import com.worldsnas.domain.interactor.bookmark.UnbookmarkProject
-import com.worldsnas.domain.interactor.browse.GetProjects
+import com.worldsnas.domain.interactor.bookmark.GetBookmarkedProjects
 import com.worldsnas.domain.model.Project
 import com.worldsnas.presentation.factory.DataFactory
 import com.worldsnas.presentation.factory.ProjectFactory
@@ -20,24 +18,22 @@ import org.junit.runners.JUnit4
 import org.mockito.Captor
 
 @RunWith(JUnit4::class)
-class BrowseProjectsVIewModelTest {
+class BrowseBookmarkedProjectViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
-    val getProjects = mock<GetProjects>()
-    val bookmarkProject = mock<BookmarkProject>()
-    val unBookmarkProject = mock<UnbookmarkProject>()
+    val getBookmarkProject = mock<GetBookmarkedProjects>()
     val mapper = mock<ProjectViewMapper>()
-    val projectViewModel = BrowseProjectsVIewModel(getProjects, bookmarkProject, unBookmarkProject, mapper)
+    val viewModel = BrowseBookmarkedProjectViewModel(getBookmarkProject, mapper)
 
     @Captor
     val captor = argumentCaptor<DisposableObserver<List<Project>>>()
 
     @Test
     fun fetchProjectExecutesUseCase() {
-        projectViewModel.fetchProjects()
+        viewModel.fetchProjects()
 
-        verify(getProjects, times(1)).execute(any(), eq(null))
+        verify(getBookmarkProject, times(1)).execute(any(), eq(null))
     }
 
     @Test
@@ -47,12 +43,12 @@ class BrowseProjectsVIewModelTest {
         stubProjectMapperMapToView(projectViews[0], projects[0])
         stubProjectMapperMapToView(projectViews[1], projects[1])
 
-        projectViewModel.fetchProjects()
+        viewModel.fetchProjects()
 
-        verify(getProjects).execute(captor.capture(), eq(null))
+        verify(getBookmarkProject, times(1)).execute(captor.capture(), eq(null))
         captor.firstValue.onNext(projects)
 
-        assertEquals(ResourceState.SUCCESS, projectViewModel.getProjects().value?.status)
+        assertEquals(ResourceState.SUCCESS, viewModel.getProjects().value?.status)
     }
 
     @Test
@@ -62,34 +58,34 @@ class BrowseProjectsVIewModelTest {
         stubProjectMapperMapToView(projectViews[0], projects[0])
         stubProjectMapperMapToView(projectViews[1], projects[1])
 
-        projectViewModel.fetchProjects()
+        viewModel.fetchProjects()
 
-        verify(getProjects).execute(captor.capture(), eq(null))
+        verify(getBookmarkProject, times(1)).execute(captor.capture(), eq(null))
         captor.firstValue.onNext(projects)
 
-        assertEquals(ResourceState.SUCCESS, projectViewModel.getProjects().value?.data)
+        assertEquals(projectViews, viewModel.getProjects().value?.data)
     }
 
     @Test
     fun fetchProjectReturnsError() {
-        projectViewModel.fetchProjects()
+        viewModel.fetchProjects()
 
-        verify(getProjects).execute(captor.capture(), eq(null))
+        verify(getBookmarkProject, times(1)).execute(captor.capture(), eq(null))
         captor.firstValue.onError(RuntimeException())
 
-        assertEquals(ResourceState.ERROR, projectViewModel.getProjects().value?.status)
+        assertEquals(ResourceState.ERROR, viewModel.getProjects().value?.status)
     }
 
     @Test
-    fun fetchProjectReturnsMessageForError() {
+    fun fetchProjectReturnsErrorMessage() {
         val errorMessage = DataFactory.randomUuid()
 
-        projectViewModel.fetchProjects()
+        viewModel.fetchProjects()
 
-        verify(getProjects).execute(captor.capture(), eq(null))
+        verify(getBookmarkProject, times(1)).execute(captor.capture(), eq(null))
         captor.firstValue.onError(RuntimeException(errorMessage))
 
-        assertEquals(errorMessage, projectViewModel.getProjects().value?.message)
+        assertEquals(errorMessage, viewModel.getProjects().value?.message)
     }
 
     private fun stubProjectMapperMapToView(projectView: ProjectView,
@@ -97,25 +93,5 @@ class BrowseProjectsVIewModelTest {
         whenever(mapper.mapToView(project))
                 .thenReturn(projectView)
     }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
