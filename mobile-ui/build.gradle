@@ -1,17 +1,16 @@
 apply plugin: 'com.android.application'
+apply plugin : 'kotlin-android'
+apply plugin : 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    def globalConfigurations = rootProject.extensions.getByName("ext")
 
-
+    compileSdkVersion globalConfigurations["androidCompileSdkVersion"]
+    buildToolsVersion globalConfigurations["androidBuildToolsVersion"]
 
     defaultConfig {
-        applicationId "com.worldsnas.mobile_ui"
-        minSdkVersion 19
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
-
+        minSdkVersion globalConfigurations["androidMinSdkVersion"]
+        targetSdkVersion globalConfigurations["androidTargetSdkVersion"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -23,13 +22,76 @@ android {
         }
     }
 
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    def mobileUiDependencies = rootProject.ext.mobileUIDependencies
+    def mobileUiTestDependencies = rootProject.ext.mobileUITestDependencies
 
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(':presentation')
+    implementation project(':Data')
+//    compile project(':Remote')
+    implementation project(':cache')
+    implementation project(":objectbox-rxjava")
+
+    implementation mobileUiDependencies.javaxAnnotation
+
+    implementation mobileUiDependencies.kotlin
+    implementation mobileUiDependencies.javaxInject
+    implementation mobileUiDependencies.rxKotlin
+    implementation mobileUiDependencies.androidAnnotations
+    implementation mobileUiDependencies.androidSupportV4
+    implementation mobileUiDependencies.androidSupportV13
+    implementation mobileUiDependencies.appCompatV7
+    implementation mobileUiDependencies.recyclerview
+    implementation mobileUiDependencies.design
+    implementation mobileUiDependencies.timber
+    implementation mobileUiDependencies.rxAndroid
+    implementation mobileUiDependencies.glide
+    implementation mobileUiDependencies.dagger
+    implementation mobileUiDependencies.daggerSupport
+
+    implementation presentationDependencies.archRuntime
+    implementation presentationDependencies.archExtensions
+    kapt presentationDependencies.archCompiler
+
+    testImplementation mobileUiTestDependencies.kotlinJunit
+
+    kapt mobileUiDependencies.daggerCompiler
+    kapt mobileUiDependencies.daggerProcessor
+    compileOnly mobileUiDependencies.glassFishAnnotations
+
+    // Instrumentation test dependencies
+    androidTestImplementation mobileUiTestDependencies.junit
+    androidTestImplementation mobileUiTestDependencies.mockito
+    androidTestImplementation mobileUiTestDependencies.mockitoAndroid
+    androidTestImplementation(mobileUiTestDependencies.espressoCore) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(mobileUiTestDependencies.supportRunner) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(mobileUiTestDependencies.supportRules) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(mobileUiTestDependencies.espressoIntents) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(mobileUiTestDependencies.espressoContrib) {
+        exclude module: 'appcompat'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'design'
+    }
+
+    kaptTest mobileUiDependencies.daggerCompiler
+    kaptAndroidTest mobileUiDependencies.daggerCompiler
+
 }
