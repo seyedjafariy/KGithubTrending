@@ -1,6 +1,7 @@
 package com.worldsnas.mobile_ui.di
 
 import android.app.Application
+import android.app.Presentation
 import com.worldsnas.mobile_ui.GithubTrendingApplication
 import dagger.BindsInstance
 import dagger.Component
@@ -10,7 +11,13 @@ import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules= arrayOf(AndroidSupportInjectionModule::class))
+@Component(modules= arrayOf(AndroidSupportInjectionModule::class,
+        AppModule::class,
+        UiModule::class,
+        PresentationModule::class,
+        DataModule::class,
+        CacheModule::class,
+        RemoteModule::class))
 interface ApplicationComponent : AndroidInjector<GithubTrendingApplication>{
 
     @Component.Builder
