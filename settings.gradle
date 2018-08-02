@@ -1,1 +1,1 @@
-include ':app', ':Domain', ':Data', ':cache',':objectbox-rxjava', ':presentation', ':remote'
+include ':app', ':Domain', ':Data', ':cache',':objectbox-rxjava', ':presentation', ':remote','mobile-ui'

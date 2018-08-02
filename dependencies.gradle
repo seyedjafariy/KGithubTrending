@@ -5,6 +5,7 @@ ext {
     androidTargetSdkVersion = 26
     androidCompileSdkVersion = 26
     kotlinVersion = '1.2.30'
+    multidexVersion = '1.0.3'
 
     //libraries
     supportLibraryVersion = '26.0.1'
@@ -110,23 +111,23 @@ ext {
     remoteDependencies = [
             moshi             : "com.squareup.moshi:moshi-kotlin:${moshiKotlinVersion}",
             moshiCodeGen      : "com.squareup.moshi:moshi-kotlin-codegen:${moshiKotlinVersion}",
-            rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
-            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}",
-            javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
+            rxKotlin          : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}",
+            javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject       : "javax.inject:javax.inject:${javaxInjectVersion}",
             androidAnnotations: "com.android.support:support-annotations:${androidAnnotationVersion}",
-            okHttp:             "com.squareup.okhttp3:okhttp:${okhttpVersion}",
-            okHttpLogger:       "com.squareup.okhttp3:logging-interceptor:${okhttpVersion}",
-            retrofit:           "com.squareup.retrofit2:retrofit:${retrofitVersion}",
-            retrofitConverter:  "com.squareup.retrofit2:converter-moshi:${retrofitVersion}",
-            retrofitAdapter:    "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
+            okHttp            : "com.squareup.okhttp3:okhttp:${okhttpVersion}",
+            okHttpLogger      : "com.squareup.okhttp3:logging-interceptor:${okhttpVersion}",
+            retrofit          : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitConverter : "com.squareup.retrofit2:converter-moshi:${retrofitVersion}",
+            retrofitAdapter   : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
     ]
 
     remoteTestDependencies = [
-            junit:              "junit:junit:${jUnitVersion}",
-            kotlinJUnit:        "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
-            assertj:            "org.assertj:assertj-core:${assertJVersion}",
-            mockito:            "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"
+            junit      : "junit:junit:${jUnitVersion}",
+            kotlinJUnit: "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
+            assertj    : "org.assertj:assertj-core:${assertJVersion}",
+            mockito    : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"
     ]
 
     presentationDependencies = [
@@ -164,6 +165,7 @@ ext {
             androidAnnotations  : "com.android.support:support-annotations:${androidAnnotationVersion}",
             androidSupportV4    : "com.android.support:support-v4:${supportLibraryVersion}",
             androidSupportV13   : "com.android.support:support-v13:${supportLibraryVersion}",
+            multidex            : "com.android.support:multidex:${multidexVersion}",
             appCompatV7         : "com.android.support:appcompat-v7:${supportLibraryVersion}",
             recyclerview        : "com.android.support:recyclerview-v7:${supportLibraryVersion}",
             design              : "com.android.support:design:${supportLibraryVersion}",

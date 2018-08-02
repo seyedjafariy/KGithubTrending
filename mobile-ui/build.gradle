@@ -12,7 +12,7 @@ android {
         minSdkVersion globalConfigurations["androidMinSdkVersion"]
         targetSdkVersion globalConfigurations["androidTargetSdkVersion"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -34,7 +34,7 @@ dependencies {
 
     implementation project(':presentation')
     implementation project(':Data')
-//    compile project(':Remote')
+    implementation project(':remote')
     implementation project(':cache')
     implementation project(":objectbox-rxjava")
 
@@ -46,6 +46,7 @@ dependencies {
     implementation mobileUiDependencies.androidAnnotations
     implementation mobileUiDependencies.androidSupportV4
     implementation mobileUiDependencies.androidSupportV13
+    implementation mobileUiDependencies.multidex
     implementation mobileUiDependencies.appCompatV7
     implementation mobileUiDependencies.recyclerview
     implementation mobileUiDependencies.design
